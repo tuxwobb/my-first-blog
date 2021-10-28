@@ -3,18 +3,22 @@
 {% block content %}
 	<div class="post">
 		{% if user.is_authenticated %}
+			<div class="date">
 			{% if post.published_date %}
-				<div class="date">
-					{{ post.published_date }}
-				</div>
+				{{ post.published_date }}
+				<a class="btn btn-default" href="{% url 'post_unpublish' pk=post.pk %}"><span class="glyphicon glyphicon-pause"></span></a>
 			{% else %}
-				<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+				<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span class="glyphicon glyphicon-play"></span></a>
 			{% endif %}
-			<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-			<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-		{% endif %}
+				<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+			</div>
 		
-		<h1>{{ post.title }}</h1>
+		{% endif %}
+		{% if post.photo %}
+			<p><img src="{{ post.photo.url }}" width="450"></p>					
+		{% endif %}
 		<p>{{ post.text|linebreaksbr }}</p>
+		<p>{{ post.category }}</p>
 	</div>	
 {% endblock %}

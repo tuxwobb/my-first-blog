@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>
+		{{ category.name }}
+		{% if user.is_authenticated %}
+			<a class="btn" href="{% url 'category_edit' pk=category.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a class="btn" href="{% url 'category_remove' pk=category.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+		{% endif %}
+	</h1>
+	<p>{{ category.description|linebreaksbr }}&nbsp;</p><br>
+		
+	
+	{% for post in posts %}
+	<figure class="figure">
+		<img src="{{ post.photo.url }}" class="figure-img img-fluid rounded" alt="picture..." width="400">
+			<figcaption class="figure-caption">
+				{{ post.title }}&nbsp;
+				{% if user.is_authenticated %}
+					<a class="btn btn-special" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;
+					<a class="btn btn-special" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+				{% endif %}
+			</figcaption>
+		</figure>			
+	{% endfor %}
+
+</div>
+{% endblock %}

@@ -4,4 +4,3 @@ myvenv
 media
 db.sqlite3
 .DS_Store
-mysite/settings.py

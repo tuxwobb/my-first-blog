@@ -3,7 +3,7 @@ from django.utils import timezone
 from .models import Post, Category
 from .forms import PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -13,6 +13,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})
 
+@login_required
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -26,6 +27,7 @@ def post_new(request):
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
 
+@login_required
 def post_edit(request, pk):
      post = get_object_or_404(Post, pk=pk)
      if request.method == "POST":
@@ -43,6 +45,7 @@ def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
+
 
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
@@ -67,6 +70,7 @@ def category_detail(request, pk):
     posts = Post.objects.filter(category=pk).order_by('-created_date')
     return render(request, 'category_detail.html', {'category': category, 'posts': posts})
 
+@login_required
 def category_new(request):
     if request.method == "POST":
         form = CategoryForm(request.POST)
@@ -78,6 +82,7 @@ def category_new(request):
         form = CategoryForm()
     return render(request, 'category_edit.html', {'form': form})
 
+@login_required
 def category_edit(request, pk):
     post = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
@@ -94,4 +99,3 @@ def category_remove(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()
     return redirect('category_list')
-    

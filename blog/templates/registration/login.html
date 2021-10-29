@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <p>Uživatelské jméno nebo heslo není správné.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>K této stránce nemáš přístup. Prosím přihlaše se účtem, který má přístup ke stránce.</p>
+    {% else %}
+      <h2>Přihlásit se.</h2>
+    {% endif %}
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <p><b>Uživatelské jméno:</b></p>
+    <p>{{ form.username }}</p>
+    <p><b>Heslo:</b></p>
+    <p>{{ form.password }}</p>
+    <p><input type="submit" class="btn-default" value="Přihlásit" /></p>
+    <p><input type="hidden" name="next" value="{{ next }}" /></p>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Zapomenuté heslo?</a></p>
+    
+{% endblock %}

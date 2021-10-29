@@ -1,20 +1,29 @@
 .page-header {
      background-color: #76A0C4;     
-     padding: 20px 20px 20px 40px;
-     margin-top: 0px;     
+     padding: 20px 20px 20px 20px;
+     margin-top: 0px;
+     margin-bottom: 0px;
 }
 
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+.page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
      color: #ffffff;
      font-size: 36pt;
-     text-decoration: none;     
+     text-decoration: none;
+     font-family: 'Lobster', cursive;    
 }
 
-.top-menu, .top-menu:hover, .top-menu:visited {
+.top-menu {
+     background-color: #C49A76;          
+     margin-top: 0px;
+     margin-bottom: 0px;
+}
+
+.top-menu a, .top-menu a:hover, .top-menu a:visited, .top-menu a:active {
      color: #ffffff;
      float: right;
-     font-size: 36pt;
+     font-size: 16pt;
      margin-right: 20px;
+     text-decoration: none;   
 }
 
 .content {
@@ -22,24 +31,26 @@
      margin-right: 20px;
 }
 
-
-h1, h2, h3, h4 {
+.content h1, .content h2, .content h3, .content h4 {
      font-family: 'Lobster', cursive;
 }
 
-.date {
+.content h1 a, .post h1 a:visited, .post h2 a, .post h2 a:visited {
+     color: #000000;
+}
+
+.content date {
      float: right;
      color: #828282;
 }
 
-.btn-special {
+.content btn-special {
      float: right;
 }
 
 .save {
      float: right;
 }
-
 
 .post-form textarea, .post-form input {
      width: 100%;
@@ -49,6 +60,3 @@ h1, h2, h3, h4 {
      margin-bottom: 50px;
 }
 
-.content h1 a, .post h1 a:visited, .post h2 a, .post h2 a:visited {
-     color: #000000;
-}

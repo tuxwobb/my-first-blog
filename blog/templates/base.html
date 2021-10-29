@@ -7,21 +7,26 @@
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
-      <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+      <link rel="stylesheet" href="{% static 'css/blog.css' %}" type="text/css">
   </head>
 
   <body>    
     <div class="page-header">
-      <h1>
-	<a href="/">Jak se staví dům</a>
-	<a href="/admin" class="top-menu"><span class="glyphicon glyphicon-user"></span></a>
-	{% if user.is_authenticated %}
-	  <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-picture"></span></a>	
-	  <a href="{% url 'category_new' %}" class="top-menu"><span class="glyphicon glyphicon-book"></span></a>
-	{% endif %} 
-      </h1>
+      <h1><a href="/">Jak se staví dům</a></h1>
     </div>
     
+    <div class="top-menu">
+    <nav class="nav justify-content-end">
+	{% if user.is_authenticated %}
+	  <a class="nav-link" href="{% url 'category_new' %}"><span class="glyphicon glyphicon-book"></span> nová kategorie</a>
+	  <a class="nav-link" href="{% url 'post_new' %}"><span class="glyphicon glyphicon-picture"></span> nová fotografie</a>
+	  <a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> odhlásit ({{ user.get_username }})</a>
+	{% else %}	  
+	  <a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> přihlásit</a>	
+	{% endif %} 
+    </nav>
+    </div>
+          
     <div class="content">
    	  {% block content %}
 	  {% endblock %}

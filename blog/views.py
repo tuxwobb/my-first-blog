@@ -5,9 +5,24 @@ from .forms import PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
+
+@login_required
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'post_list.html', {'posts': posts})
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('priority', '-published_date')
+    paginator = Paginator(posts, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'post_list.html', {'page_obj': page_obj})
+
+@login_required
+def post_draft_list(request):
+    posts = Post.objects.filter(published_date__isnull=True).order_by('priority', '-created_date')
+    paginator = Paginator(posts, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'post_draft_list.html', {'page_obj': page_obj})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -20,9 +35,8 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.save()
-            post.publish()
-            return redirect('post_list')
+            post.save()            
+            return redirect('post_draft_list')
     else:
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
@@ -39,36 +53,36 @@ def post_edit(request, pk):
              return redirect('post_detail', pk=post.pk)
      else:
          form = PostForm(instance=post)
-     return render(request, 'post_edit.html', {'form': form})
+     return render(request, 'post_edit.html', {'form': form, 'pk': post.pk, 'name': post.title})
 
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
 
-
-def post_draft_list(request):
-    posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-    return render(request, 'post_draft_list.html', {'posts': posts})
-
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
-    return redirect('post_detail', pk=pk)
+    return redirect('post_draft_list')
 
 def post_unpublish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.unpublish()
-    return redirect('post_detail', pk=pk)
+    return redirect('post_list')
 
 def category_list(request):
-    categories = Category.objects.all()
+    #categories = Category.objects.all().order_by('priority', '-created_date')
+    categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False)))
     return render(request, 'category_list.html', {'categories': categories})
 
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
-    posts = Post.objects.filter(category=pk).order_by('-created_date')
-    return render(request, 'category_detail.html', {'category': category, 'posts': posts})
+    posts = Post.objects.filter(category=pk, published_date__isnull=False).order_by('priority', '-published_date')
+    cnt = posts.count()
+    paginator = Paginator(posts, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'category_detail.html', {'category': category, 'count': cnt, 'page_obj': page_obj})
 
 @login_required
 def category_new(request):
@@ -84,16 +98,16 @@ def category_new(request):
 
 @login_required
 def category_edit(request, pk):
-    post = get_object_or_404(Category, pk=pk)
+    category = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-        form = CategoryForm(request.POST, instance=post)
+        form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
             return redirect('category_detail', pk=category.pk)
     else:
-        form = CategoryForm(instance=post)
-    return render(request, 'category_edit.html', {'form': form})
+        form = CategoryForm(instance=category)
+    return render(request, 'category_edit.html', {'form': form, 'pk': category.pk, 'name': category.name})
 
 def category_remove(request, pk):
     category = get_object_or_404(Category, pk=pk)

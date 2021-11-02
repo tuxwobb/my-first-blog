@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
-	
+
 {% block content %}
 	
-	{% for category in categories %}
-		<h1><a href="{% url 'category_detail' pk=category.pk %}">{{ category.name }}</a></h1>
-		<p>{{ category.description|linebreaksbr }}</p>
+	<div class="container-fluid">
+	<div class="row row-cols-1">
+
+	{% for category in categories %}		
+		<div class="col">
+		<h1>
+			<a href="{% url 'category_detail' pk=category.pk %}">{{ category.name }}</a>
+			<span class="badge rounded-pill bg-secondary">{{category.no_of_posts}}</span>						
+		</h1>
+		<p>{{ category.description }}</p>
+		</div>
+	
 	{% endfor %}
+	
+	</div>
+	</div>
 	
 {% endblock %}

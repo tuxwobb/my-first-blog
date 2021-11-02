@@ -1,24 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="post">
-		{% if user.is_authenticated %}
-			<div class="date">
-			{% if post.published_date %}
-				{{ post.published_date }}
-				<a class="btn btn-default" href="{% url 'post_unpublish' pk=post.pk %}"><span class="glyphicon glyphicon-pause"></span></a>
-			{% else %}
-				<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span class="glyphicon glyphicon-play"></span></a>
-			{% endif %}
-				<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
-			</div>
-		
-		{% endif %}
-		{% if post.photo %}
-			<p><img src="{{ post.photo.url }}" width="450"></p>					
-		{% endif %}
-		<p>{{ post.text|linebreaksbr }}</p>
-		<p>{{ post.category }}</p>
+	<div class="content">
+		<p>&nbsp;<</p>		
+		<p align="center"><img src="{{ post.photo.url }}" width="1000"></p>
+		<p align="center">{{ post.title }} ({{ post.category }}) 		
+			{% if user.is_authenticated %}
+				<a class="btn" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>				
+			{% endif %}		
+		</p">
+
 	</div>	
 {% endblock %}

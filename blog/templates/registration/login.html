@@ -2,6 +2,10 @@
 
 {% block content %}
 
+  <div class="container-fluid">
+	<div class="row row-cols-auto">
+    <div class="col">
+
   {% if form.errors %}
     <p>Uživatelské jméno nebo heslo není správné.</p>
   {% endif %}
@@ -26,5 +30,9 @@
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Zapomenuté heslo?</a></p>
-    
+  
+    </div>
+  </div>
+  </div>
+  
 {% endblock %}

@@ -10,6 +10,17 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    PRIORITIES = [
+        (1, 'Nejvyšší'),
+        (2, 'Vysoká'),
+        (3, 'Střední'),
+        (4, 'Nízká'),
+        (5, 'Nejnižší'),
+    ]
+    priority = models.IntegerField(
+        choices=PRIORITIES,
+        default=3,
+    )
 
     def __str__(self):
         return self.name
@@ -20,7 +31,18 @@ class Post(models.Model):
     title = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-    photo = models.ImageField(upload_to='.', blank=True, null=True)
+    photo = models.ImageField(upload_to='.')
+    PRIORITIES = [
+        (1, 'Nejvyšší'),
+        (2, 'Vysoká'),
+        (3, 'Střední'),
+        (4, 'Nízká'),
+        (5, 'Nejnižší'),
+    ]
+    priority = models.IntegerField(
+        choices=PRIORITIES,
+        default=3,
+    )
 
     def publish(self):
         self.published_date = timezone.now()

@@ -1,10 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-     <h1>Kategorie</h1>
+
+     <div class="container-fluid">
+	<div class="row row-cols-auto">
+          <div class="col">
+
+     <h1>
+          {% if pk %}
+               {{ name|truncatechars:10 }}
+               <a class="btn-lg" href="{% url 'category_remove' pk=pk %}"><i class="bi bi-trash" style="font-size: 1.5rem;"></i></a>               
+          {% else %}
+               Nová kategorie
+          {% endif %}
+     </h1>
      <form method="POST" class="post-form">
 		 {% csrf_token %}
          {{ form.as_p }}
-         <button type="submit" class="save btn btn-default">Uložit</button>
+         <button type="submit">Uložit</button>
      </form>
+     
+          </div>
+     </div>
+     </div>
 {% endblock %}

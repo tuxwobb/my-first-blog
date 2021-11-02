@@ -2,35 +2,72 @@
 
 <html>
   <head>
-    <title>Jak se staví dům</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
+    <title>Stavba domečku v Lužicích</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+      
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&display=swap" rel="stylesheet">
+      
       <link rel="stylesheet" href="{% static 'css/blog.css' %}" type="text/css">
   </head>
 
-  <body>    
-    <div class="page-header">
-      <h1><a href="/">Jak se staví dům</a></h1>
-    </div>
-    
-    <div class="top-menu">
-    <nav class="nav justify-content-end">
-	{% if user.is_authenticated %}
-	  <a class="nav-link" href="{% url 'category_new' %}"><span class="glyphicon glyphicon-book"></span> nová kategorie</a>
-	  <a class="nav-link" href="{% url 'post_new' %}"><span class="glyphicon glyphicon-picture"></span> nová fotografie</a>
-	  <a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> odhlásit ({{ user.get_username }})</a>
-	{% else %}	  
-	  <a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> přihlásit</a>	
-	{% endif %} 
+  <body>
+      
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #91692d">
+      <div class="container-fluid">			
+	<a class="navbar-brand" href="/">			
+	  <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i> Fotogalerie
+	</a>
+    	<div class="collapse navbar-collapse" id="navbarText">
+	  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	    <li class="nav-item dropdown">
+		{% if user.is_authenticated %}
+		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		Editace
+		</a>
+		<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+		  <li><a class="dropdown-item" href="{% url 'post_new' %}"><i class="bi bi-image" style="font-size: 1.5rem;"></i> Nová fotografie</a></li>
+		  <li><a class="dropdown-item" href="{% url 'post_draft_list' %}"><i class="bi bi-arrow-up-circle" style="font-size: 1.5rem;"></i> Publikovat</a></li>
+		  <li><a class="dropdown-item" href="{% url 'post_list' %}"><i class="bi bi-arrow-down-circle" style="font-size: 1.5rem;"></i> Skrýt</a></li>
+		  <li><hr class="dropdown-divider"></li>
+		  <li><a class="dropdown-item" href="{% url 'category_new' %}"><i class="bi bi-inbox" style="font-size: 1.5rem;"></i> Nová kategorie</a></li>
+		</ul>
+	    </li>
+	    {% endif %}
+      
+	    <li class="nav-item">
+	      {% if user.is_authenticated %}
+		<a class="nav-link" href="{% url 'logout' %}">Odhlásit</a>
+	      {% else %}
+		<a class="nav-link" href="{% url 'login' %}">Přihlásit</a>
+	      {% endif %}
+	    </li>
+	  </ul>
+	  <span class="navbar-text">Stavba domečku v Lužicích...</span>
+	</div>
+      </div>
     </nav>
-    </div>
           
     <div class="content">
-   	  {% block content %}
-	  {% endblock %}
-    </div>
+      
+    <!--
+    <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-image" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-inbox" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-arrow-up-circle" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-arrow-down-circle" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-box-arrow-right" style="font-size: 1.5rem;"></i>
+    <i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
+    -->
+    
+      {% block content %}
+      {% endblock %}
+    </div>    
     
   </body>
 

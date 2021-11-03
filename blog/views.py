@@ -50,8 +50,8 @@ def post_edit(request, pk):
              post = form.save(commit=False)
              post.author = request.user
              post.save()
-             if next:
-                return redirect('post_list')
+             if str(request.POST["next"]):
+                return redirect(str(request.POST["next"]))
              else:
                 return redirect('post_detail', pk=post.pk)             
      else:
@@ -92,7 +92,7 @@ def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
     posts = Post.objects.filter(category=pk, published_date__isnull=False).order_by('priority', '-published_date')
     cnt = posts.count()
-    paginator = Paginator(posts, 25)
+    paginator = Paginator(posts, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'category_detail.html', {'category': category, 'count': cnt, 'page_obj': page_obj})

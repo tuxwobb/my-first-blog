@@ -52,5 +52,15 @@ class Post(models.Model):
         self.published_date = timezone.deactivate()
         self.save()
 
+    def priority_up(self):
+        if self.priority > 1:
+            self.priority -= 1
+            self.save()
+            
+    def priority_down(self):
+        if self.priority < 5:
+            self.priority += 1
+            self.save()
+
     def __str__(self):
         return self.title

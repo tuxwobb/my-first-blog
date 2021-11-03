@@ -14,9 +14,11 @@
 						{{ post.title|truncatechars:100 }}<br>
 						<b>{{ post.category }}</b>&nbsp;<b>(P{{ post.priority }})</b><br>
 						{% if user.is_authenticated %}
-							<a href="{% url 'post_edit' pk=post.pk %}"><i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i></a>
+							<a href="{% url 'post_edit' pk=post.pk %}?next=post_list"><i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i></a>
                 		    <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="bi bi-arrow-down-circle" style="font-size: 1.5rem;"></i></a>
                             <a href="{% url 'post_remove' pk=post.pk %}"><i class="bi bi-trash" style="font-size: 1.5rem;"></i></a>
+                            <a href="{% url 'post_priority_up' pk=post.pk %}"><i class="bi bi-caret-up" style="font-size: 1.5rem;"></i></a>
+                            <a href="{% url 'post_priority_down' pk=post.pk %}"><i class="bi bi-caret-down" style="font-size: 1.5rem;"></i></a>
 		                {% endif %}						
 					</p>
 				</div>

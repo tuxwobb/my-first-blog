@@ -5,10 +5,12 @@
      <div class="container-fluid">
 	<div class="row row-cols-auto">
           <div class="col">
+
+     {{ next }}
      
      <h1>
           {% if pk %}               
-               {{ name|truncatechars:10 }}
+               {{ name|truncatechars:40 }}
                <a class="btn-lg" href="{% url 'post_remove' pk=pk %}"><i class="bi bi-trash" style="font-size: 1.5rem;"></i></a>               
           {% else %}
                Nová fotografie
@@ -17,7 +19,8 @@
      <form enctype="multipart/form-data" method="POST" class="post-form">
 		 {% csrf_token %}
          {{ form.as_p }}
-         <button type="submit">Uložit</button>
+         <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+         <button type="submit">Uložit</button>         
      </form>
      
           </div>

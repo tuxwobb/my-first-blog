@@ -50,7 +50,10 @@ def post_edit(request, pk):
              post = form.save(commit=False)
              post.author = request.user
              post.save()
-             return redirect('post_detail', pk=post.pk)
+             if next:
+                return redirect('post_list')
+             else:
+                return redirect('post_detail', pk=post.pk)             
      else:
          form = PostForm(instance=post)
      return render(request, 'post_edit.html', {'form': form, 'pk': post.pk, 'name': post.title})
@@ -68,6 +71,16 @@ def post_publish(request, pk):
 def post_unpublish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.unpublish()
+    return redirect('post_list')
+
+def post_priority_up(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.priority_up()
+    return redirect('post_list')
+
+def post_priority_down(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.priority_down()
     return redirect('post_list')
 
 def category_list(request):

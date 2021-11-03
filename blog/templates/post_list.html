@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<P>
 <div class="container-fluid">
 	<div class="row row-cols-auto">
-
 		{% for post in page_obj %}
 		<div class="col">
 			<div class="card" style="width: 20rem">
@@ -30,29 +28,32 @@
 			</div>
 		</div>
 		{% endfor %}
-
 	</div>
 </div>
-</p>
 
-<p>
-<div class="pagination">
-	<span class="step-links">
-		{% if page_obj.has_previous %}
-		<a href="?page=1">&laquo; první</a>
-		<a href="?page={{ page_obj.previous_page_number }}">předchozí</a>
-		{% endif %}
 
-		<span class="current">
-			Strana {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
-		</span>
+<div class="container-fluid">
+	<div class="row row-cols-auto">
+		<div class="col">
+			<div class="pagination">
+				<span class="step-links">
+					{% if page_obj.has_previous %}
+					<a href="?page=1">&laquo; první</a>
+					<a href="?page={{ page_obj.previous_page_number }}">předchozí</a>
+					{% endif %}
 
-		{% if page_obj.has_next %}
-		<a href="?page={{ page_obj.next_page_number }}">další</a>
-		<a href="?page={{ page_obj.paginator.num_pages }}">poslední &raquo;</a>
-		{% endif %}
-	</span>
+					<span class="current">
+						Strana {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
+					</span>
+
+					{% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}">další</a>
+					<a href="?page={{ page_obj.paginator.num_pages }}">poslední &raquo;</a>
+					{% endif %}
+				</span>
+			</div>
+		</div>
+	</div>
 </div>
-</p>
 
 {% endblock %}

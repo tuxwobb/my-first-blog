@@ -6,48 +6,48 @@
 	<div class="row row-cols-1">
 		<div class="col">
 			<h1>
-				{{ category.name }}&nbsp;
+				{{ category.name }}
 				{% if user.is_authenticated %}
 				<a class="btn" href="{% url 'category_edit' pk=category.pk %}">
 					<i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
 				</a>
 				{% endif %}
 			</h1>
+			<p>{{ category.description|linebreaksbr }}</p>
+		</div>
+	</div>
+</div>
 
-			<p>
-				{{ category.description|linebreaksbr }}
-			</p>
+<div class="container-fluid">
+	<div class="row row-cols-auto">
 
-			<P>
-			<div class="container-fluid">
-				<div class="row row-cols-auto">
-
-					{% for post in page_obj %}
-					<div class="col">
-						<div class="card" style="width: 20rem">
-							<img src="{{ post.photo.url }}" class="card-img-top" alt="...">
-							<div class="card-body">
-								<p class="card-text">
-									{{ post.title|truncatechars:100 }}<br>
-									{% if user.is_authenticated %}
-									<a href="{% url 'post_edit' pk=post.pk %}?next=/category/{{ category.pk }}"><i
-											class="bi bi-pencil-square" style="font-size: 1.5rem;"></i></a>
-									<a href="{% url 'post_remove' pk=post.pk %}"><i class="bi bi-trash"
-											style="font-size: 1.5rem;"></i></a>
-									<a href="{% url 'post_unpublish' pk=post.pk %}"><i class="bi bi-arrow-down-circle"
-											style="font-size: 1.5rem;"></i></a>
-									{% endif %}
-								</p>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-
+		{% for post in page_obj %}
+		<div class="col">
+			<div class="card" style="width: 20rem">
+				<img src="{{ post.photo.url }}" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">
+						{{ post.title|truncatechars:100 }}<br>
+						{% if user.is_authenticated %}
+						<a href="{% url 'post_edit' pk=post.pk %}?next=/category/{{ category.pk }}"><i
+								class="bi bi-pencil-square" style="font-size: 1.5rem;"></i></a>
+						<a href="{% url 'post_remove' pk=post.pk %}"><i class="bi bi-trash"
+								style="font-size: 1.5rem;"></i></a>
+						<a href="{% url 'post_unpublish' pk=post.pk %}"><i class="bi bi-arrow-down-circle"
+								style="font-size: 1.5rem;"></i></a>
+						{% endif %}
+					</p>
 				</div>
 			</div>
-			</p>
+		</div>
+		{% endfor %}
 
-			<p>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row row-cols-1">
+		<div class="col">
 			<div class="pagination">
 				<span class="step-links">
 					{% if page_obj.has_previous %}
@@ -63,10 +63,7 @@
 					{% endif %}
 				</span>
 			</div>
-			</p>
-
 		</div>
 	</div>
-</div>
 
 {% endblock %}

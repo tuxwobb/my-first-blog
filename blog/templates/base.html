@@ -56,6 +56,11 @@
               </li>
               <li><a class="dropdown-item" href="{% url 'category_new' %}"><i class="bi bi-inbox"
                     style="font-size: 1.5rem;"></i> Nová kategorie</a></li>
+              <li><a class="dropdown-item" href="{% url 'category_draft_list' %}"><i class="bi bi-arrow-up-circle"
+                    style="font-size: 1.5rem;"></i> Publikovat</a></li>
+              <li><a class="dropdown-item" href="{% url 'category_list' %}"><i class="bi bi-arrow-down-circle"
+                    style="font-size: 1.5rem;"></i> Skrýt</a></li>
+              <li>
             </ul>
           </li>
           {% endif %}

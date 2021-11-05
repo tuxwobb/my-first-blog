@@ -10,6 +10,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
     PRIORITIES = [
         (1, 'Nejvyšší'),
         (2, 'Vysoká'),
@@ -22,13 +23,21 @@ class Category(models.Model):
         default=3,
     )
 
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def unpublish(self):
+        self.published_date = timezone.deactivate()
+        self.save()
+    
     def __str__(self):
         return self.name
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    title = models.TextField()
+    title = models.TextField(default="Foto")
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     photo = models.ImageField(upload_to='.')

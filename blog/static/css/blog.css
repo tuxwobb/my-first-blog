@@ -2,15 +2,20 @@
      margin-left: 10px;
      margin-right: 10px;
      margin-top: 10px;
-     margin-bottom: 10px;
-     
+     margin-bottom: 10px;     
 }
 
 .content h1,
 .content h1 a,
 .content h1 a:visited,
 .content h1 a:hover,
-.content h1 a:active,
+.content h1 a:active {
+     color: #000000;
+     font-family: 'Hind Siliguri', sans-serif;
+     font-size: 16pt;
+     text-decoration: none;
+}
+
 .content h2,
 .content h2 a,
 .content h2 a:visited,
@@ -18,7 +23,18 @@
 .content h2 a:visited {
      color: #000000;
      font-family: 'Hind Siliguri', sans-serif;
-     font-size: 20pt;
+     font-size: 14pt;
+     text-decoration: none;
+}
+
+.content h3,
+.content h3 a,
+.content h3 a:visited,
+.content h3 a:hover,
+.content h3 a:visited {
+     color: #000000;
+     font-family: 'Hind Siliguri', sans-serif;
+     font-size: 12pt;
      text-decoration: none;
 }
 

@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="content">
-	
-			<p align="center"><img src="{{ post.photo.url }}" width="1000"></p>
-			<p align="center">{{ post.title }} ({{ post.category }})
-				{% if user.is_authenticated %}
-				<a class="btn" href="{% url 'post_edit' pk=post.pk %}"><span
-						class="glyphicon glyphicon-pencil"></span></a>
-				{% endif %}
-				</p">
 
+<div class="container-fluid">
+	<div class="row row-cols-1">		
+		<div class="col">
+			<p><img src="{{ post.photo.url }}" class="img-fluid rounded"></p>
+			<p>{{ post.title }} ({{ post.category }})</p">
+		</div>
+	</div>
 </div>
+
 {% endblock %}

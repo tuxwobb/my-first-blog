@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 
+def index(request):
+    categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False))).filter(published_date__isnull=False)
+    return render(request, 'index.html', {'categories': categories})
+
 @login_required
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('category','priority', '-published_date')  
@@ -60,7 +64,7 @@ def post_edit(request, pk):
 
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    post.delete()    
     return redirect('post_list')
 
 def post_publish(request, pk):
@@ -83,16 +87,22 @@ def post_priority_down(request, pk):
     post.priority_down()
     return redirect('post_list')
 
+@login_required
 def category_list(request):
     #categories = Category.objects.all().order_by('priority', '-created_date')
-    categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False)))
+    categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False))).filter(published_date__isnull=False).order_by('priority', '-created_date')
     return render(request, 'category_list.html', {'categories': categories})
+
+@login_required
+def category_draft_list(request):
+    categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False))).filter(published_date__isnull=True).order_by('priority', '-created_date')
+    return render(request, 'category_draft_list.html', {'categories': categories})
 
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
     posts = Post.objects.filter(category=pk, published_date__isnull=False).order_by('priority', '-published_date')
     cnt = posts.count()
-    paginator = Paginator(posts, 4)
+    paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'category_detail.html', {'category': category, 'count': cnt, 'page_obj': page_obj})
@@ -104,7 +114,7 @@ def category_new(request):
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
-            return redirect('category_list')
+            return redirect('category_draft_list')
     else:
         form = CategoryForm()
     return render(request, 'category_edit.html', {'form': form})
@@ -125,4 +135,14 @@ def category_edit(request, pk):
 def category_remove(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()
+    return redirect('category_list')
+
+def category_publish(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    category.publish()
+    return redirect('category_draft_list')
+
+def category_unpublish(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    category.unpublish()
     return redirect('category_list')

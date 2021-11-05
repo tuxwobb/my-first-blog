@@ -15,7 +15,7 @@
                     {% endif %}
                </h1>
                <form enctype="multipart/form-data" method="POST" class="post-form">
-                    {% csrf_token %}
+                    {% csrf_token %}                    
                     {{ form.as_p }}
                     <input type="hidden" name="next" value="{{ request.GET.next }}" />
                     <button type="submit">Uložit</button>

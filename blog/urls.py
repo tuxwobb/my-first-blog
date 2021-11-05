@@ -4,11 +4,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.category_list, name='category_list'),
+    path('', views.index, name='index'),
     path('category/list', views.category_list, name="category_list"),
+    path('category/draft', views.category_draft_list, name='category_draft_list'),
     path('category/<int:pk>/', views.category_detail, name='category_detail'),
     path('category/new/', views.category_new, name='category_new'),
     path('category/<int:pk>/edit/', views.category_edit, name='category_edit'),
+    path('category/<int:pk>/publish/', views.category_publish, name='category_publish'),
+    path('categpry/<int:pk>/unpublish', views.category_unpublish, name='category_unpublish'),
     path('category/<int:pk>/remove/', views.category_remove, name='category_remove'),
     
     path('post/list', views.post_list, name="post_list"),

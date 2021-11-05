@@ -3,8 +3,8 @@
 {% block content %}
 
 <div class="container-fluid">
-	<div class="row row-cols-1">
-		<div class="col">
+	<div class="row row-cols-auto">
+		<div class="col gx-2 gy-2">
 			<h1>Přehled skrytých fotografií</h1>
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 	<div class="row row-cols-auto">
 		{% for post in page_obj %}
 		<div class="col">
-			<div class="card" style="width: 20rem">
+			<div class="card shadow rounded" style="width: 20rem">
 				<img src="{{ post.photo.url }}" class="card-img-top" alt="...">
 				<div class="card-body">
 					<p class="card-text">

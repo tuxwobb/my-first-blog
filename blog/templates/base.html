@@ -27,7 +27,7 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #91692d">
+  <nav class="navbar navbar-expand-lg navbar-dark shadow rounded" style="background-color: #91692d">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
         <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i> Fotogalerie
@@ -94,6 +94,13 @@
     {% block content %}
     {% endblock %}
   </div>
+
+  <nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
+		<div class="container-fluid">		  
+      <span class="navbar-text">Powered by <a href="https://www.djangoproject.com/">django</a></span>      
+      <span class="navbar-text">&copy; 2021 Designed by <a href="https://www.linkedin.com/in/tomáš-miklík-610b1566">Tomáš Miklík</a></span>      
+		</div>
+	</nav>
 
 </body>
 

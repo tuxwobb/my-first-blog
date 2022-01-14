@@ -8,6 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 
+from PIL import Image
+from PIL.ExifTags import TAGS
+
+from datetime import datetime
+
 def index(request):
     categories = Category.objects.annotate(no_of_posts=Count('post', filter=Q(post__published_date__isnull=False))).filter(published_date__isnull=False)
     return render(request, 'index.html', {'categories': categories})
@@ -155,12 +160,22 @@ def multiple_post(request):
             data = request.POST
             photos = request.FILES.getlist('photo') 
             for p in photos:
+                
+                ret = {}
+                i = Image.open(p)
+                info = i._getexif()
+                for tag, value in info.items():
+                    decoded = TAGS.get(tag, tag)
+                    ret[decoded] = value
+                print(ret)
+
                 post = Post.objects.create(
                     author = request.user,
                     category = Category.objects.get(id = data['category']),
+                    title = ret['DateTimeOriginal'],
                     photo = p,
                     priority = 3,
-                    published_date = timezone.now()
+                    published_date = timezone.now()                    
                 )
             
             return redirect('post_list')

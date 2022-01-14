@@ -24,4 +24,8 @@ urlpatterns = [
     path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
     path('post/<int:pk>/priority_up/', views.post_priority_up, name='post_priority_up'),
     path('post/<int:pk>/priority_down/', views.post_priority_down, name='post_priority_down'),
+
+    path('multiple_post', views.multiple_post, name='multiple_post',
+    )
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

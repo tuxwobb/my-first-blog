@@ -146,3 +146,24 @@ def category_unpublish(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.unpublish()
     return redirect('category_list')
+
+@login_required
+def multiple_post(request):
+    categories = Category.objects.all()    
+    
+    if request.method == "POST":
+            data = request.POST
+            photos = request.FILES.getlist('photo') 
+            for p in photos:
+                post = Post.objects.create(
+                    author = request.user,
+                    category = Category.objects.get(id = data['category']),
+                    photo = p,
+                    priority = 3,
+                    published_date = timezone.now()
+                )
+            
+            return redirect('post_list')
+    else:
+        form = PostForm()
+    return render(request, 'multiple_post.html', {'form': form, 'categories': categories})

@@ -27,10 +27,11 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark shadow rounded" style="background-color: #91692d">
+  <!-- HEADER -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow" style="background-color: #91692d">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i> Fotogalerie
+        <i class="bi bi-house-door-fill"></i>&nbsp;&nbsp;Fotogalerie
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
         aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,22 +46,13 @@
               Editace
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="{% url 'post_new' %}"><i class="bi bi-image"
-                    style="font-size: 1.5rem;"></i> Nová fotografie</a></li>
-              <li><a class="dropdown-item" href="{% url 'post_draft_list' %}"><i class="bi bi-arrow-up-circle"
-                    style="font-size: 1.5rem;"></i> Publikovat</a></li>
-              <li><a class="dropdown-item" href="{% url 'post_list' %}"><i class="bi bi-arrow-down-circle"
-                    style="font-size: 1.5rem;"></i> Skrýt</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url 'category_new' %}"><i class="bi bi-inbox"
-                    style="font-size: 1.5rem;"></i> Nová kategorie</a></li>
-              <li><a class="dropdown-item" href="{% url 'category_draft_list' %}"><i class="bi bi-arrow-up-circle"
-                    style="font-size: 1.5rem;"></i> Publikovat</a></li>
-              <li><a class="dropdown-item" href="{% url 'category_list' %}"><i class="bi bi-arrow-down-circle"
-                    style="font-size: 1.5rem;"></i> Skrýt</a></li>
-              <li>
+              <li><a class="dropdown-item" href="{% url 'post_new' %}"><i class="bi bi-image"></i> Nová fotografie</a></li>
+              <li><a class="dropdown-item" href="{% url 'post_draft_list' %}"><i class="bi bi-arrow-up-circle"></i> Publikovat</a></li>
+              <li><a class="dropdown-item" href="{% url 'post_list' %}"><i class="bi bi-arrow-down-circle"></i> Skrýt</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'category_new' %}"><i class="bi bi-inbox"></i> Nová kategorie</a></li>
+              <li><a class="dropdown-item" href="{% url 'category_draft_list' %}"><i class="bi bi-arrow-up-circle"></i> Publikovat</a></li>
+              <li><a class="dropdown-item" href="{% url 'category_list' %}"><i class="bi bi-arrow-down-circle"></i> Skrýt</a></li>              
             </ul>
           </li>
           {% endif %}
@@ -78,9 +70,7 @@
     </div>
   </nav>
 
-  <div class="content">
-
-    <!--
+  <!--
     <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i>
     <i class="bi bi-image" style="font-size: 1.5rem;"></i>
     <i class="bi bi-inbox" style="font-size: 1.5rem;"></i>
@@ -89,18 +79,21 @@
     <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i>
     <i class="bi bi-box-arrow-right" style="font-size: 1.5rem;"></i>
     <i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
-    -->
+  -->
 
+  <!-- CONTENT -->
+  <div class="content">
     {% block content %}
     {% endblock %}
   </div>
-
-  <nav class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light">
-		<div class="container-fluid">		  
+  
+  <!-- FOOTER -->
+  <nav class="navbar bottom navbar-light bg-light">
+    <div class="container-fluid">		  
       <span class="navbar-text">Powered by <a href="https://www.djangoproject.com/">django</a></span>      
       <span class="navbar-text">&copy; 2021 Designed by <a href="https://www.linkedin.com/in/tomáš-miklík-610b1566">Tomáš Miklík</a></span>      
-		</div>
-	</nav>
+    </div>
+  </nav>  
 
 </body>
 

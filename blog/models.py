@@ -37,7 +37,7 @@ class Category(models.Model):
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    title = models.TextField(default="Foto")
+    title = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     photo = models.ImageField(upload_to='.')

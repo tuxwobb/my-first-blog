@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 
+from django import forms
+
 from PIL import Image
 from PIL.ExifTags import TAGS
 
@@ -19,7 +21,7 @@ def index(request):
 
 @login_required
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('category','priority', '-published_date')  
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('category','priority', 'photo_date')  
     paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -27,7 +29,7 @@ def post_list(request):
 
 @login_required
 def post_draft_list(request):
-    posts = Post.objects.filter(published_date__isnull=True).order_by('priority', '-created_date')
+    posts = Post.objects.filter(published_date__isnull=True).order_by('priority', 'photo_date')
     paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -105,7 +107,7 @@ def category_draft_list(request):
 
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
-    posts = Post.objects.filter(category=pk, published_date__isnull=False).order_by('priority', '-published_date')
+    posts = Post.objects.filter(category=pk, published_date__isnull=False).order_by('priority', 'photo_date')
     cnt = posts.count()
     paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
@@ -159,26 +161,35 @@ def multiple_post(request):
     if request.method == "POST":
             data = request.POST
             photos = request.FILES.getlist('photo') 
-            for p in photos:
-                
-                ret = {}
-                i = Image.open(p)
-                info = i._getexif()
-                for tag, value in info.items():
-                    decoded = TAGS.get(tag, tag)
-                    ret[decoded] = value
-                print(ret)
-
-                post = Post.objects.create(
-                    author = request.user,
-                    category = Category.objects.get(id = data['category']),
-                    title = ret['DateTimeOriginal'],
-                    photo = p,
-                    priority = 3,
-                    published_date = timezone.now()                    
-                )
-            
-            return redirect('post_list')
+            if data['category'] != 'none':
+                for p in photos:                
+                    #get exif information
+                    ret = {}
+                    i = Image.open(p)                    
+                    if i._getexif():
+                        info = i._getexif()
+                        for tag, value in info.items():
+                            decoded = TAGS.get(tag, tag)
+                            ret[decoded] = value
+                            #print(ret)
+                    else:
+                        ret['DateTimeOriginal'] = ''
+                    #save all images into selected category with exif createdatetime
+                    if ret['DateTimeOriginal'] != '':
+                        temp_date = datetime.strptime(ret['DateTimeOriginal'], '%Y:%m:%d %H:%M:%S')
+                    else:
+                        temp_date = None
+                    post = Post.objects.create(
+                        author = request.user,
+                        title = '',
+                        photo_date = temp_date,                        
+                        category = Category.objects.get(id = data['category']),
+                        priority = data['priority'],
+                        photo = p,
+                        published_date = timezone.now()                    
+                    )            
+                return redirect('post_list')
+            else:                    
+                return render(request, 'multiple_post.html', {'categories': categories})                
     else:
-        form = PostForm()
-    return render(request, 'multiple_post.html', {'form': form, 'categories': categories})
+        return render(request, 'multiple_post.html', {'categories': categories})

@@ -5,22 +5,36 @@
 <div class="container-fluid">
      <div class="row row-cols-auto">
           <div class="col">
+               <h1>Hromadný upload</h1>
                <form enctype="multipart/form-data" method="POST" class="post-form">
                     {% csrf_token %}                    
-
-                    <label>Photo</label>
+                    <p>
+                    <label>Photo:</label>
                     <input name="photo" type="file" multiple>
-
-                    <label>Category</label>
+                    </p>
+                    <p>
+                    <label>Category:</label>
                     <select name="category">
                          <option value='none'>Select Category...</option>
                          {% for category in categories %}
                          <option value='{{ category.id }}'>{{ category.name }}</option>
                          {% endfor %}
                     </select>  
-                    
+                    </p>
+                    <p>
+                    <label>Priority:</label>
+                    <select name="priority">                         
+                         <option value='1'>Nejvyšší</option>
+                         <option value='2'>Vysoká</option>
+                         <option value='3' selected>Střední</option>
+                         <option value='4'>Nízká</option>                         
+                         <option value='5'>Nejnižší</optiom>                         
+                    </select>  
+                    </p>
                     <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                    <p>
                     <button type="submit">Uložit</button>
+                    </p>
                </form>
           </div>
      </div>

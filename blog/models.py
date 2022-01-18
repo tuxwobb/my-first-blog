@@ -10,7 +10,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
+    published_date = models.DateTimeField(blank=True, null=True)    
     PRIORITIES = [
         (1, 'Nejvyšší'),
         (2, 'Vysoká'),
@@ -40,6 +40,7 @@ class Post(models.Model):
     title = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    photo_date = models.DateTimeField(blank=True, null=True)
     photo = models.ImageField(upload_to='.')
     PRIORITIES = [
         (1, 'Nejvyšší'),
